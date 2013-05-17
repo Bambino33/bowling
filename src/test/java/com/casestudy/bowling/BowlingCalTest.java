@@ -17,15 +17,16 @@ public class BowlingCalTest {
 
     @Test
     public void should_sum_total_score_for_normal_round() throws Exception {
-        Round firstRound = new Round();
-        firstRound.hit(4);
-        firstRound.hit(3);
-        bowlingCal.addRound(firstRound);
+        bowlingCal.addRound(generateNormalRound(4, 3));
         assertThat(bowlingCal.getTotalScore(),is(7));
-        Round secondRound = new Round();
-        secondRound.hit(7);
-        secondRound.hit(1);
-        bowlingCal.addRound(secondRound);
-        assertThat(bowlingCal.getTotalScore(),is(15));
+        bowlingCal.addRound(generateNormalRound(7, 1));
+        assertThat(bowlingCal.getTotalScore(), is(15));
+    }
+
+    private Round generateNormalRound(int hit1, int hit2) {
+        Round round = new Round();
+        round.hit(hit1);
+        round.hit(hit2);
+        return round;
     }
 }
