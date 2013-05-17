@@ -1,63 +1,62 @@
 package com.casestudy.bowling;
 
-public class Match {
-    public void hit(int bottles) {
-        if (FirstHitInRound) {
-            CurrentRound++;
-            BottlesDown[2*(CurrentRound-1)] = bottles;
-            FirstHitInRound = false;
-            if(10 == bottles){
-                FirstHitInRound = true;
-            }
-        }
-        else {
-            BottlesDown[2*(CurrentRound-1)+1] = bottles;
-            FirstHitInRound = true;
-        }
-        BottlesDownInOneRound = 0;
-        BottlesDownInOneRound = BottlesDown[2*(CurrentRound-1)] + BottlesDown[2*(CurrentRound-1)+1];
+import com.google.common.collect.Lists;
 
-        if (BottlesDownInOneRound > 10){
-            if (FirstHitInRound){
-                BottlesDown[2*(CurrentRound-1)+1] = 0;
-            }
-            else {
-                BottlesDown[2*(CurrentRound-1)] = 0;
-            }
-            throw new UnsupportedOperationException("BottlesDownInOneRound is larger than 10");
+import java.util.List;
+
+public class Match {
+    public static final int FULL_SCORE = 10;
+    public static final int TWO_ROUND = 2;
+    private List<Integer> roundHits = Lists.newArrayList();
+    private int totalScore;
+
+    public void hit(int score) {
+        if(isRoundOutOfScore(score)){
+            throw new UnsupportedOperationException("Should not larger than 10");
         }
+        if(isLastRoundSpare()){
+            sumScoreForSpareRound(score);
+        }
+        this.roundHits.add(score);
+        if(isNormalRound()){
+            sumScoreForNormalRound();
+        }
+    }
+
+    private void sumScoreForNormalRound() {
+        this.totalScore += sumRound();
+        roundHits.clear();
+    }
+
+    private void sumScoreForSpareRound(int score) {
+        this.totalScore += sumRound();
+        this.totalScore += score;
+        roundHits.clear();
+    }
+
+    private boolean isRoundOutOfScore(int score) {
+        return score+sumRound()>10&&roundHits.size()< TWO_ROUND;
+    }
+
+    private boolean isNormalRound() {
+        return roundHits.size()==2&&sumRound()<FULL_SCORE;
+    }
+
+    private boolean isLastRoundSpare() {
+        return sumRound()== FULL_SCORE;
+    }
+
+    private int sumRound() {
+        int roundScore = 0;
+        for(Integer hit:roundHits){
+            roundScore += hit;
+        }
+        return roundScore;
     }
 
     public int getScore() {
-        score = 0;
-        for (int i = 1; i <= CurrentRound; i++)     {
-            BottlesDownInOneRound = 0;
-            BottlesDownInOneRound =  BottlesDown[2*(i-1)] + BottlesDown[2*(i-1)+1];
-            if(BottlesDownInOneRound < 10 ){
-                score += BottlesDownInOneRound;
-            }
-            else
-            {
-                if(BottlesDownInOneRound == 10){
-                    if(10 == BottlesDown[2*(i-1)] ){
-                        int Next2HitBottles = BottlesDown[2*i]+ BottlesDown[2*i+1];
-                        score += BottlesDownInOneRound +Next2HitBottles;
-                    }
-                    else{
-                        int NextHitBottles = BottlesDown[2*i];
-                        score += BottlesDownInOneRound +NextHitBottles;
-                    }
-                }
-            }
-        }
-        return score;
+        return totalScore;
     }
 
-    private int score = 0;
-    private final int MaxHitNum = 21;
-    private int[] BottlesDown = new int[MaxHitNum];
-    private int BottlesDownInOneRound = 0;
-    private int CurrentRound = 0;
-    private boolean FirstHitInRound = true;
 
 }

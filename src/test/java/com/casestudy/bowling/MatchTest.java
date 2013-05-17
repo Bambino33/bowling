@@ -10,10 +10,11 @@ public class MatchTest {
     public void should_sum_scores_for_normal_round() throws Exception {
         Match match = new Match();
         match.hit(4);
-        assertThat(match.getScore(), is(4));
+        assertThat(match.getScore(), is(0));
         match.hit(3);
         assertThat(match.getScore(), is(7));
     }
+
 
     @Test(expected = UnsupportedOperationException.class)
     public void should_not_sum_score_larger_than_ten() throws Exception {
@@ -30,33 +31,38 @@ public class MatchTest {
         } catch (Exception e) {
 
         }
-        assertThat(match.getScore(), is(6));
+        assertThat(match.getScore(), is(0));
     }
+
 
     @Test
     public void should_sum_scores_for_two_normal_round() throws Exception {
         Match match = new Match();
         match.hit(4);
-        assertThat(match.getScore(), is(4));
+        assertThat(match.getScore(), is(0));
         match.hit(3);
         assertThat(match.getScore(), is(7));
         match.hit(4);
-        assertThat(match.getScore(), is(11));
+        assertThat(match.getScore(), is(7));
         match.hit(3);
         assertThat(match.getScore(), is(14));
     }
+
 
     @Test
     public void should_sum_scores_for_spare_round() throws Exception {
         Match match = new Match();
         match.hit(4);
-        assertThat(match.getScore(), is(4));
+        assertThat(match.getScore(), is(0));
         match.hit(6);
+        assertThat(match.getScore(), is(0));
         match.hit(4);
+        assertThat(match.getScore(), is(14));
         match.hit(3);
         assertThat(match.getScore(), is(21));
     }
 
+    /*
     @Test
     public void should_sum_scores_for_strike_round() throws Exception {
         Match match = new Match();
@@ -66,4 +72,5 @@ public class MatchTest {
         match.hit(3);
         assertThat(match.getScore(), is(24));
     }
+    */
 }
