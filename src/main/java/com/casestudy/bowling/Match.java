@@ -1,12 +1,5 @@
 package com.casestudy.bowling;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Zhengjie
- * Date: 13-5-15
- * Time: 下午3:28
- * To change this template use File | Settings | File Templates.
- */
 public class Match {
     public void hit(int bottles) {
         if (FirstHitInRound) {

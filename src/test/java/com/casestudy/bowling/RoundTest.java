@@ -5,13 +5,6 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Zhengjie
- * Date: 13-4-27
- * Time: 下午4:05
- * To change this template use File | Settings | File Templates.
- */
 public class RoundTest {
     @Test
     public void should_sum_scores_for_normal_round() throws Exception {
